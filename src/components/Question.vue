@@ -85,7 +85,7 @@ export default {
           level: "hard",
           tags: ["data-structure", "queue"],
           props: {
-            body: "the answer is 'true'",
+            body: "int main() { return true }",
             answer: "true",
           },
         },

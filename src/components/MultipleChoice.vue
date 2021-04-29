@@ -13,7 +13,12 @@
           >{{ option }}</b-form-radio
         >
       </b-form-group>
-      <b-button variant="outline-primary">VERIFICAR RESPOSTA</b-button>
+      <b-button @click="verifyAnswer" variant="outline-primary"
+        >VERIFICAR RESPOSTA</b-button
+      >
+      <b-alert :variant="alert.variant" v-model="alert.show">{{
+        alert.message
+      }}</b-alert>
     </div>
   </div>
 </template>
@@ -24,11 +29,29 @@ export default {
   props: {
     body: String,
     options: Array,
+    answer: String,
   },
   data() {
     return {
       selected: undefined,
+      alert: {
+        variant: "danger",
+        message: "Errado",
+        show: false,
+      },
     };
+  },
+  methods: {
+    verifyAnswer() {
+      console.log(this.selected, this.answer);
+      console.log(this.options);
+      console.log(this.selected == this.answer);
+      if (this.selected == this.answer) {
+        alert.variant = "success";
+        alert.message = "Correto";
+      }
+      alert.show = true;
+    },
   },
 };
 </script>

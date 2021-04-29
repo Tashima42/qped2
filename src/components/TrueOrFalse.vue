@@ -18,7 +18,9 @@
           >Falso</b-form-radio
         >
       </b-form-group>
-      <b-button variant="outline-primary">VERIFICAR RESPOSTA</b-button>
+      <b-button @click="verifyAnswer" variant="outline-primary"
+        >VERIFICAR RESPOSTA</b-button
+      >
     </div>
   </div>
 </template>
@@ -34,6 +36,11 @@ export default {
     return {
       selected: undefined,
     };
+  },
+  methods: {
+    verifyAnswer() {
+      console.log(this.answer);
+    },
   },
 };
 </script>
