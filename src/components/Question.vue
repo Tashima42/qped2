@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Button />
     <b-container class="bv-question">
       <b-tabs>
         <b-tab
@@ -40,6 +41,7 @@ import MultipleChoice from "./MultipleChoice.vue";
 import TrueOrFalse from "./TrueOrFalse";
 import Written from "./Written";
 import CodeBlock from './CodeBlock'
+import Button from "./Button"
 export default {
   name: "Question",
   components: {
@@ -47,6 +49,7 @@ export default {
     MultipleChoice,
     TrueOrFalse,
     Written,
+    Button,
   },
   /*
   props: {
