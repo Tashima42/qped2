@@ -1,20 +1,37 @@
 <template>
-  <div class="header">
-    <b-tabs content-class="mt-3">
-      <b-tab
-        v-for="question in questions"
-        :key="question.id"
-        :title="question.level"
-      >
-        <h2>{{ question.title }}</h2>
-        <p>{{ question.description }}</p>
-        <component
-          :is="question.type"
-          v-bind:body="question.props.body"
-          v-bind:options="question.props.options"
-        />
-      </b-tab>
-    </b-tabs>
+  <div>
+    <b-container class="bv-question">
+      <b-tabs>
+        <b-tab
+          v-for="question in questions"
+          :key="question.id"
+          :title="question.level"
+        >
+        <b-row>
+          <b-col>
+            <b-row>
+              <h2>{{ question.title }}</h2>
+            </b-row>
+            <b-row>
+              <p>{{ question.description }}</p>
+            </b-row>
+            <b-row>
+              <CodeBlock language="c" :code="question.code" />
+            </b-row>
+          </b-col>
+          <b-col>
+          <b-row>
+            <component
+              :is="question.type"
+              v-bind:body="question.props.body"
+              v-bind:options="question.props.options"
+            />
+            </b-row>
+            </b-col>
+          </b-row>
+        </b-tab>
+      </b-tabs>
+    </b-container>
   </div>
 </template>
 
@@ -22,9 +39,11 @@
 import MultipleChoice from "./MultipleChoice.vue";
 import TrueOrFalse from "./TrueOrFalse";
 import Written from "./Written";
+import CodeBlock from './CodeBlock'
 export default {
   name: "Question",
   components: {
+    CodeBlock,
     MultipleChoice,
     TrueOrFalse,
     Written,
@@ -54,6 +73,12 @@ export default {
           type: "TrueOrFalse",
           title: "Queue",
           description: "Solve this question",
+          code: `
+            int main() {
+              int queue[5] = { 1, 2, 3, 4, 5};
+              return 0;
+            }
+          `,
           subject: "queue",
           level: "easy",
           tags: ["data-structure", "queue"],
@@ -67,6 +92,12 @@ export default {
           type: "MultipleChoice",
           title: "Stack",
           description: "Solve this question",
+          code: `
+            int main() {
+              int queue[5] = { 1, 2, 3, 4, 5};
+              return 0;
+            }
+          `,
           subject: "stack",
           level: "medium",
           tags: ["data-structure", "stack"],
@@ -81,6 +112,12 @@ export default {
           type: "Written",
           title: "Queue",
           description: "Solve this question",
+          code: `
+            int main() {
+              int queue[5] = { 1, 2, 3, 4, 5};
+              return 0;
+            }
+          `,
           subject: "queue",
           level: "hard",
           tags: ["data-structure", "queue"],
@@ -96,4 +133,7 @@ export default {
 </script>
 
 <style>
+.code {
+  length: 100px;
+}
 </style>
