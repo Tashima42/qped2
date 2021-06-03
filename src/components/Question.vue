@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Button />
+    <Button text="test1" icon="lightning-fill" color="grey" variant="outline"/>
     <b-container class="bv-question">
       <b-tabs>
         <b-tab

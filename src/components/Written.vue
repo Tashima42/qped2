@@ -12,16 +12,18 @@
           </b-col>
         </b-row>
       </b-container>
-      <b-button @click="verifyAnswer" variant="outline-primary"
-        >VERIFICAR RESPOSTA</b-button
-      >
+      <Button variant="filled" color="dark-grey" text="Responder" />
     </div>
   </div>
 </template>
 
 <script>
+import Button from "./Button"
 export default {
   name: "Written",
+  components: {
+    Button,
+  },
   props: {
     body: String,
     answer: String,
