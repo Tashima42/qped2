@@ -1,18 +1,32 @@
 <template>
   <div class="true-or-false">
     <div class="body">
-      <p>{{ text }}</p>
-      <Button @click="verifyAnswer" icon="check" variant="outline" color="grey" text="Verdadeiro" />
-      <Button @click="verifyAnswer" icon="x" variant="outline" color="grey" text="Falso" />
+      <vue-markdown>{{ text }}</vue-markdown>
+      <Button
+        v-on:click.native="verifyAnswer"
+        icon="check"
+        variant="outline"
+        color="grey"
+        text="Verdadeiro"
+      />
+      <Button
+        @click="verifyAnswer"
+        icon="x"
+        variant="outline"
+        color="grey"
+        text="Falso"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import Button from "./Button";
+import VueMarkdown from "vue-markdown-v2";
 export default {
   name: "TrueOrFalse",
   components: {
+    VueMarkdown,
     Button,
   },
   props: {
@@ -27,9 +41,7 @@ export default {
   methods: {
     // TODO: add args
     verifyAnswer: function () {
-      console.log("test")
-      console.log(this.text, this.answer)
-      //return eval(this.answer)
+      return eval(`(${this.answer})()`);
     },
   },
 };

@@ -1,41 +1,13 @@
 <template>
   <div>
-    <Button text="test1" icon="lightning-fill" color="grey" variant="outline" />
-    <b-container class="bv-question">
-      <b-tabs>
-        <b-tab
-          v-for="question in questions"
-          :key="question.id"
-          :title="question.id"
-        >
-          <b-row>
-            <!--
-            <b-col>
-              <b-row>
-                <h2>{{ question.title }}</h2>
-              </b-row>
-              <b-row>
-                <p>{{ question.description }}</p>
-              </b-row>
-              <b-row>
-                <CodeBlock language="c" :code="question.code" />
-              </b-row>
-            </b-col>
-              -->
-            <b-col>
-              <b-row>
-                <component
-                  :is="question.type"
-                  v-bind:text="question.props.text"
-                  v-bind:answer="question.props.answer"
-                  v-bind:options="question.props.options"
-                />
-              </b-row>
-            </b-col>
-          </b-row>
-        </b-tab>
-      </b-tabs>
-    </b-container>
+    <component
+      v-for="question in questions"
+      :key="question.id"
+      :is="question.type"
+      v-bind:text="question.text"
+      v-bind:answer="question.answer"
+      v-bind:options="question.options"
+    />
   </div>
 </template>
 
@@ -43,20 +15,16 @@
 import MultipleChoice from "./MultipleChoice.vue";
 import TrueOrFalse from "./TrueOrFalse";
 import Written from "./Written";
-import CodeBlock from "./CodeBlock";
-import Button from "./Button";
 export default {
   name: "Question",
   components: {
-    CodeBlock,
     MultipleChoice,
     TrueOrFalse,
     Written,
-    Button,
   },
   props: {
     questions: {
-      type: Array
+      type: Array,
     },
   },
   /*
