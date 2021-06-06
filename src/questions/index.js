@@ -11,7 +11,8 @@ questions.forEach(question => {
     type: question.type,
     tags: question.tags,
     level: question.level,
-    answer: question.answer.toString() 
+    answer: question.answer.toString(),
+    values: parser.getAllValues() 
   })
 })
 

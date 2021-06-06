@@ -1,4 +1,5 @@
-export const questions = [
+const questions = [
+  /*
   {
     id: 'busca-seq-1',
     text:
@@ -23,6 +24,7 @@ Quantas comparações serão realizadas se o valor buscado for \`{valor=3:13}\`?
     tags: ['busca binária', 'busca', 'conceito'],
     type: "Written"
   },
+  */
 
   {
     id: 'pilha-simulacao-1',
@@ -38,7 +40,7 @@ Em qual ordem os elementos serão removidos da pilha?
   <op value="1011011000">push({a=1:5}), pop(), push({b=1:5}), push({c=1:5}), pop(), push({d=1:5}), push({e=1:5}), pop(), pop(), pop()</op>
   <op value="1010110100">push({a=1:5}), pop(), push({b=1:5}), pop(), push({c=1:5}), push({d=1:5}), pop(), push({e=1:5}), pop(), pop()</op>
 </operacoes>`,
-    answer: function ({ operacoes, a, b, c, d, e }) {
+    answer: function (operacoes, a, b, c, d, e) {
       let ops = operacoes.split('');
       let values = [e, d, c, b, a];
       let stack = [];
@@ -50,7 +52,6 @@ Em qual ordem os elementos serão removidos da pilha?
           resp.push(stack.pop());
         }
       }
-      console.log(resp)
       return resp;
     },
     subject: 'pilha',

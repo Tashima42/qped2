@@ -3,14 +3,14 @@
     <div class="body">
       <vue-markdown>{{ text }}</vue-markdown>
       <Button
-        v-on:click.native="verifyAnswer"
+        @click.native="verifyAnswer([10, 20, 30], 10)"
         icon="check"
         variant="outline"
         color="grey"
         text="Verdadeiro"
       />
       <Button
-        @click="verifyAnswer"
+        @click.native="verifyAnswer([10, 20, 30], 10)"
         icon="x"
         variant="outline"
         color="grey"
@@ -32,16 +32,19 @@ export default {
   props: {
     text: String,
     answer: String,
+    values: Object,
   },
   data() {
     return {
-      selected: undefined,
+      selected: null,
+      correct: null,
     };
   },
   methods: {
     // TODO: add args
-    verifyAnswer: function () {
-      return eval(`(${this.answer})()`);
+    verifyAnswer: function (vet, valor) {
+      //console.log(this.values);
+      this.correct = eval(`(${this.answer})(${vet}, ${valor}, 50)`);
     },
   },
 };
