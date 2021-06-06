@@ -1,9 +1,9 @@
 <template>
   <div class="true-or-false">
     <div class="body">
-      <p>{{ body }}</p>
-      <Button icon="check" variant="outline" color="grey" text="Verdadeiro" />
-      <Button icon="x" variant="outline" color="grey" text="Falso" />
+      <p>{{ text }}</p>
+      <Button @click="verifyAnswer" icon="check" variant="outline" color="grey" text="Verdadeiro" />
+      <Button @click="verifyAnswer" icon="x" variant="outline" color="grey" text="Falso" />
     </div>
   </div>
 </template>
@@ -16,8 +16,8 @@ export default {
     Button,
   },
   props: {
-    body: String,
-    answer: Boolean,
+    text: String,
+    answer: String,
   },
   data() {
     return {
@@ -25,8 +25,11 @@ export default {
     };
   },
   methods: {
-    verifyAnswer() {
-      console.log(this.answer);
+    // TODO: add args
+    verifyAnswer: function () {
+      console.log("test")
+      console.log(this.text, this.answer)
+      //return eval(this.answer)
     },
   },
 };

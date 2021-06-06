@@ -1,7 +1,7 @@
 /*
   @autor: rivolli
   @date: 22-04-2020
-  @version: 1.1
+  @version: 1.101
   @descrition
     Parsing the text of a programing question using variables
 
@@ -28,12 +28,12 @@
       Example:
       Mostrar umas das opções: {opcoes}
       <opcoes>
-      	<item>Instrução 1: {a=1:10}</item>
-      	<item>Instrução 2: {a=10:20}</item>
-      	<item>instruções 3 sem usar a</item>
-      	<item>instruções 4: {b=1:20}</item>
-      	<item>instruções 5 sem usar a e b</item>
-      	<item>instruções 6: {a=10:20} e {b=1:20}</item>
+        <item>Instrução 1: {a=1:10}</item>
+        <item>Instrução 2: {a=10:20}</item>
+        <item>instruções 3 sem usar a</item>
+        <item>instruções 4: {b=1:20}</item>
+        <item>instruções 5 sem usar a e b</item>
+        <item>instruções 6: {a=10:20} e {b=1:20}</item>
       </opcoes>
 
       Outra variação chamada Metodo: {metodo}
@@ -71,8 +71,7 @@
     // Para obter a definição de uma variavel é necessário passar no formato de token
     console.log(obj.getVariable("{abc}"));
 */
-class QuestionParser {
-
+export class QuestionParser {
   /*
       Create a question
       @param text:string - Question descrition using the notation of dynamic variables
@@ -88,7 +87,7 @@ class QuestionParser {
     this.text = this.parseOptions(text);
 
     let getTokenId = this.getTokenId;
-    this.tokens = this.tokenize(this.text).sort(function(a, b) {
+    this.tokens = this.tokenize(this.text).sort(function (a, b) {
       let ai = a.indexOf('=')
       let bi = b.indexOf('=')
       if (ai === -1 && bi == -1) {
@@ -108,17 +107,17 @@ class QuestionParser {
     });
 
     this.tokens.forEach(token => this.getVariable(token));
-    this.tokens.forEach(token =>{
+    this.tokens.forEach(token => {
       this.getValue(this.getTokenId(token), this.seed);
     });
   }
 
   parseOptions(text) {
     let parser = new DOMParser();
-    let xmlDoc = parser.parseFromString("<p_all>"+text+"</p_all>","text/xml");
+    let xmlDoc = parser.parseFromString("<p_all>" + text + "</p_all>", "text/xml");
     let candidates = xmlDoc.getElementsByTagName("p_all")[0].children;
 
-    for (let i = 0; i<candidates.length; i++) {
+    for (let i = 0; i < candidates.length; i++) {
       let item = candidates[i];
       let variable = "{" + item.tagName + "}";
       if (text.indexOf(variable) > -1 && item.children.length > 0) {
@@ -126,7 +125,7 @@ class QuestionParser {
         let content = item.outerHTML;
 
         this.options[item.tagName] = option;
-        for (let j = 0; j< item.children[option].attributes.length; j++) {
+        for (let j = 0; j < item.children[option].attributes.length; j++) {
           if (item.children[option].attributes[j].name == "value") {
             this.options[item.tagName] = item.children[option].attributes[j].nodeValue;
           }
@@ -150,7 +149,7 @@ class QuestionParser {
     let content = ""
     let aux = [];
 
-    for (let i = 0; i<text.length; i++) {
+    for (let i = 0; i < text.length; i++) {
       if (text[i] == '{') {
         if (content.length > 0) {
           aux.push(content);
@@ -164,13 +163,13 @@ class QuestionParser {
         } else {
           content = "";
         }
-      } else if (text[i] === '\\'){
+      } else if (text[i] === '\\') {
         i++;
       } else if (text[i] == ' ') {
         aux = [];
         content = "";
       } else if (content.length > 0) {
-        content +=  text[i];
+        content += text[i];
       }
     }
 
@@ -190,7 +189,7 @@ class QuestionParser {
     If input str is not valid the return is null
   */
   parseValues(str) {
-    let parseSingleValue = function(num){
+    let parseSingleValue = function (num) {
       if (num.length > 0 && !isNaN(num)) {
         if (num.indexOf('.') != -1) {
           return parseFloat(num);
@@ -255,10 +254,10 @@ class QuestionParser {
       such that the return has only numbers and '_', e.g.: {1:5} => 1_2
   */
   getTokenId(token) {
-    let compId = function(token) {
+    let compId = function (token) {
       let matched = token.match("\\[.*]");
       let symbols = ['+', ',', '{', '}', '=', ':'];
-      for (let i = 0; i<symbols.length; i++) {
+      for (let i = 0; i < symbols.length; i++) {
         token = token.replaceAll(symbols[i], '_');
       }
       if (matched != null) {
@@ -270,7 +269,7 @@ class QuestionParser {
     token = token.substring(1, token.length - 1);
     let bracket = 0;
     let pos;
-    for (pos = 0; pos<token.length; pos++) {
+    for (pos = 0; pos < token.length; pos++) {
       if (token[pos] == '[') bracket++;
       else if (token[pos] == ']') bracket--;
       else if (token[pos] == '=' && bracket == 0) break;
@@ -299,10 +298,10 @@ class QuestionParser {
   getVariable(token) {
     let id = this.getTokenId(token);
     if (this.variables[id] === undefined) {
-      let ids = [];
+      //let ids = [];
       let tks = this.tokenize(token);
       if (tks.length == 1) {
-        let obj = this.parseValues(tks[0].substring(1, tks[0].length-1).replace(id, "").replace("=", ""));
+        let obj = this.parseValues(tks[0].substring(1, tks[0].length - 1).replace(id, "").replace("=", ""));
         if (obj === null) {
           return;
         }
@@ -312,7 +311,7 @@ class QuestionParser {
       } else {
         let obj = null;
         let ids = [];
-        for (let i = 0; i<tks.length; i++) {
+        for (let i = 0; i < tks.length; i++) {
           let ntoken = tks[i];
           ids.push(this.getTokenId(ntoken));
           for (let j = 0; j < i; j++) {
@@ -337,6 +336,9 @@ class QuestionParser {
   */
   getValue(varname, seed) {
     let key = varname;
+    if (this.options[key] !== undefined) {
+      return this.options[key];
+    }
     if (seed !== undefined && seed !== null) {
       key += seed;
     }
@@ -344,7 +346,7 @@ class QuestionParser {
     if (this.values[key] === undefined) {
       let matched = varname.match("\\[.*]");
       if (matched !== null && matched.length == 1) {
-        let idx = matched[0].substring(1, matched[0].length-1);
+        let idx = matched[0].substring(1, matched[0].length - 1);
 
         if (this._hasOnlyNumbers(idx)) {
           idx = parseInt(idx)
@@ -358,17 +360,17 @@ class QuestionParser {
 
         let values = this.getValue(varname.replace(matched[0], ""), seed);
         if (idx.length === undefined) {
-            return values[idx];
+          return values[idx];
         } else {
-            let retvals = [];
-            for (let i = 0; i < idx.length; i++) {
-               retvals.push(values[idx[i]]);
-            }
-            return retvals;
+          let retvals = [];
+          for (let i = 0; i < idx.length; i++) {
+            retvals.push(values[idx[i]]);
+          }
+          return retvals;
         }
       }
 
-      let obj = this.getVariable('{'+varname+'}');
+      let obj = this.getVariable('{' + varname + '}');
       if (obj !== null && obj !== undefined) {
         let min = 0; let max = 1; let step = 2; let length = 3;
         let props = ['min', 'max', 'step', 'length'];
@@ -391,12 +393,12 @@ class QuestionParser {
         let allvalues = [];
         if (parsed[step] > 0) {
           //TODO suppport char
-          while(start <= end) {
+          while (start <= end) {
             allvalues.push(start);
             start += parsed[step];
           }
         } else {
-          while(start >= end) {
+          while (start >= end) {
             allvalues.push(start);
             start += parsed[step];
           }
@@ -429,22 +431,22 @@ class QuestionParser {
     return this.values[key];
   }
 
-    /*
-      Return the generated value of all named variables
-      @param (optional) seed:integer - Number used to obtain always the same value of the variables
-        If not provided, the default seed will be used
+  /*
+    Return the generated value of all named variables
+    @param (optional) seed:integer - Number used to obtain always the same value of the variables
+      If not provided, the default seed will be used
 
-      @return {} - Each attribute is a named variable with its respective value
-    */
+    @return {} - Each attribute is a named variable with its respective value
+  */
   getAllValues(seed) {
     let tokens = this.tokens.sort((a, b) => b.length - a.length);
-    let allvalues = tokens.map(token =>{
+    let allvalues = tokens.map(token => {
       return this.getValue(this.getTokenId(token), seed);
     });
 
     let values = {};
     let ids = tokens.map(this.getTokenId);
-    for(let i = 0; i<ids.length; i++) {
+    for (let i = 0; i < ids.length; i++) {
       if (ids[i].indexOf('_') == -1) {
         values[ids[i]] = allvalues[i];
       }
@@ -459,9 +461,9 @@ class QuestionParser {
   */
   getText() {
     let text = this.text;
-    let values = [ ["\\{", "{"], ["\\}", "}"] ];
+    let values = [["\\{", "{"], ["\\}", "}"]];
 
-    (this.tokens.sort((a, b) => b.length - a.length)).reverse().forEach(token =>{
+    (this.tokens.sort((a, b) => b.length - a.length)).reverse().forEach(token => {
       values.push([token, this.getValue(this.getTokenId(token), this.seed)]);
     });
 
@@ -484,7 +486,7 @@ class QuestionParser {
     return /^\d+$/.test(str);
   }
 
-  _getRandomInt = function(min, max) {
+  _getRandomInt = function (min, max) {
     let a = Math.ceil(min);
     let b = Math.floor(max);
     return Math.floor(Math.random() * (b - a + 1)) + a;
