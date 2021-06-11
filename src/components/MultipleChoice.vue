@@ -2,30 +2,25 @@
   <div class="multiple-choice">
     <div class="body">
       <p>{{ body }}</p>
-      <b-form-group v-slot="{ ariaDescribedby }">
-        <b-form-radio
-          v-for="(option, index) in options"
-          :key="index"
-          :aria-describedby="ariaDescribedby"
-          :name="option"
-          :value="option"
-          v-model="selected"
-          >{{ option }}</b-form-radio
-        >
-      </b-form-group>
-      <b-button @click="verifyAnswer" variant="outline-primary"
-        >VERIFICAR RESPOSTA</b-button
-      >
-      <b-alert :variant="alert.variant" v-model="alert.show">{{
-        alert.message
-      }}</b-alert>
+      <Button
+        v-for="(option, index) in options"
+        :key="index"
+        icon="x"
+        variant="outline"
+        color="grey"
+        :text="option"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import Button from "./Button";
 export default {
   name: "MultipleChoice",
+  components: {
+    Button,
+  },
   props: {
     body: String,
     options: Array,

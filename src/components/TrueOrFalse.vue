@@ -1,45 +1,50 @@
 <template>
   <div class="true-or-false">
     <div class="body">
-      <p>{{ body }}</p>
-      <b-form-group v-slot="{ ariaDescribedby }">
-        <b-form-radio
-          :aria-describedby="ariaDescribedby"
-          name="verdadeiro"
-          value="true"
-          v-model="selected"
-          >Verdadeiro</b-form-radio
-        >
-        <b-form-radio
-          :aria-describedby="ariaDescribedby"
-          name="falso"
-          value="false"
-          v-model="selected"
-          >Falso</b-form-radio
-        >
-      </b-form-group>
-      <b-button @click="verifyAnswer" variant="outline-primary"
-        >VERIFICAR RESPOSTA</b-button
-      >
+      <vue-markdown>{{ text }}</vue-markdown>
+      <Button
+        @click.native="verifyAnswer([10, 20, 30], 10)"
+        icon="check"
+        variant="outline"
+        color="grey"
+        text="Verdadeiro"
+      />
+      <Button
+        @click.native="verifyAnswer([10, 20, 30], 10)"
+        icon="x"
+        variant="outline"
+        color="grey"
+        text="Falso"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import Button from "./Button";
+import VueMarkdown from "vue-markdown-v2";
 export default {
   name: "TrueOrFalse",
+  components: {
+    VueMarkdown,
+    Button,
+  },
   props: {
-    body: String,
-    answer: Boolean,
+    text: String,
+    answer: String,
+    values: Object,
   },
   data() {
     return {
-      selected: undefined,
+      selected: null,
+      correct: null,
     };
   },
   methods: {
-    verifyAnswer() {
-      console.log(this.answer);
+    // TODO: add args
+    verifyAnswer: function (vet, valor) {
+      //console.log(this.values);
+      this.correct = eval(`(${this.answer})(${vet}, ${valor}, 50)`);
     },
   },
 };

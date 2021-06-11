@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="./QuestionParserA.js"></script>
+    <script src="./questionA.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  </head>
+  <body>
+    <ol id="questions">
+    </ol>
+    <script>
+      function $args(func) {
+          return (func + '')
+            .replace(/[/][/].*$/mg,'') // strip single-line comments
+            .replace(/\s+/g, '') // strip white space
+            .replace(/[/][*][^/*]*[*][/]/g, '') // strip multi-line comments
+            .split('){', 1)[0].replace(/^[^(]*[(]/, '') // extract the parameters
+            .replace(/=[^,]+/g, '') // strip any ES6 defaults
+            .split(',').filter(Boolean); // split & filter [""]
+      }
+
+      function dispatch(fn, args) {
+          fn = (typeof fn == "function") ? fn : window[fn];  // Allow fn to be a function object or the name of a global function
+          return fn.apply(this, args || []);  // args is optional, use an empty array by default
+      }
+
+      let ol = document.querySelector("#questions");
+
+      for (let i = 0; i < questions.length; i++) {
+        let obj = new QuestionParser(questions[i]['text']);
+        let func = questions[i]['answer'];
+        let params = $args(func)
+        let values = params.map(x => obj.getValue(x))
+
+        let li = document.createElement("li");
+        li.innerHTML = marked(obj.getText()) + "<br>" +
+        "<small style='color:red'>Resposta: " + dispatch(func, values) + "</small><hr />";
+
+        ol.insertBefore(li, ol.firstChild);
+      }
+
+    </script>
+  </body>
+</html>

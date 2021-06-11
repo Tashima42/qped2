@@ -1,38 +1,20 @@
 <template>
   <div id="app">
-    <Question v-bind="multiple" />
+    <Question :questions="questions" />
   </div>
 </template>
 
 <script>
+import questions from "./questions/index"
 import Question from "./components/Question";
 export default {
   components: {
     Question,
   },
-  data() {
-    return {
-      multiple: [
-        {
-          id: 1,
-          type: "MultipleChoice",
-          title: "Multiple Choice",
-          description: "Solve this question",
-          subject: "stack",
-          level: "medium",
-          tags: ["data-structure", "stack"],
-          props: {
-            test: "test",
-            test2: "test2",
-          },
-          methods: {
-            verify() {
-              return true;
-            },
-          },
-        },
-      ],
-    };
+  computed: {
+    questions: () => {
+      return questions 
+    },
   },
 };
 </script>
